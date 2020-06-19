@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+const cc = require('cryptocompare');
+cc.setApiKey(
+  '82ff5a19c02023810bd909e0941fc8244ac634caa56997295b9af424a03685a4'
+);
 
 export const AppContext = React.createContext();
 
@@ -12,6 +16,15 @@ export class AppProvider extends Component {
       confirmFavourites: this.confirmFavourites
     };
   }
+
+  componentDidMount() {
+    this.fetchCoins();
+  }
+
+  fetchCoins = async () => {
+    let coinList = (await cc.coinList()).Data;
+    this.setState({ coinList });
+  };
 
   saveSettings = () => {
     let cryptoDashData = JSON.parse(localStorage.getItem('cryptoDash'));
