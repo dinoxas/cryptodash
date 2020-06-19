@@ -1,11 +1,14 @@
 import React from 'react';
 import './App.css';
+import AppLayout from './AppLayout';
+import AppBar from './AppBar';
 
 function App() {
   return (
-    <div className='App'>
-      <h1>Yo!</h1>
-    </div>
+    <AppLayout>
+      <AppBar />
+      <h1>Welcome to Crypto Dashboard</h1>
+    </AppLayout>
   );
 }
 
