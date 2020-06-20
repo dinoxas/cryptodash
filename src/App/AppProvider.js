@@ -21,7 +21,8 @@ export class AppProvider extends Component {
       addCoin: this.addCoin,
       removeCoin: this.removeCoin,
       confirmFavourites: this.confirmFavourites,
-      isInFavourites: this.isInFavourites
+      isInFavourites: this.isInFavourites,
+      setFilteredCoins: this.setFilteredCoins
     };
   }
 
@@ -82,6 +83,8 @@ export class AppProvider extends Component {
   };
 
   setPage = (page) => this.setState({ page });
+
+  setFilteredCoins = (filteredCoins) => this.setState({ filteredCoins });
 
   render() {
     return (
