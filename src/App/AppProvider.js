@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
+
 const cc = require('cryptocompare');
 cc.setApiKey(
   '82ff5a19c02023810bd909e0941fc8244ac634caa56997295b9af424a03685a4'
@@ -16,13 +18,31 @@ export class AppProvider extends Component {
       favourites: ['BTC', 'ETH', 'XMR'],
       ...this.saveSettings(),
       setPage: this.setPage,
-      confirmFavourites: this.confirmFavourites
+      addCoin: this.addCoin,
+      removeCoin: this.removeCoin,
+      confirmFavourites: this.confirmFavourites,
+      isInFavourites: this.isInFavourites
     };
   }
 
   componentDidMount() {
     this.fetchCoins();
   }
+
+  addCoin = (key) => {
+    let favourites = [...this.state.favourites];
+    if (favourites.length < MAX_FAVS) {
+      favourites.push(key);
+      this.setState({ favourites });
+    }
+  };
+
+  removeCoin = (key) => {
+    let favourites = [...this.state.favourites];
+    this.setState({
+      favourites: _.pull(favourites, key)
+    });
+  };
 
   fetchCoins = async () => {
     let coinList = (await cc.coinList()).Data;
@@ -37,8 +57,13 @@ export class AppProvider extends Component {
         firstVisit: true
       };
     }
-    return {};
+
+    let { favourites } = cryptoDashData;
+
+    return { favourites };
   };
+
+  isInFavourites = (key) => _.includes(this.state.favourites, key);
 
   confirmFavourites = () => {
     this.setState({
@@ -49,9 +74,11 @@ export class AppProvider extends Component {
     localStorage.setItem(
       'cryptoDash',
       JSON.stringify({
-        test: 'Hello'
+        favourites: this.state.favourites
       })
     );
+
+    console.log(localStorage.getItem('cryptoDash'));
   };
 
   setPage = (page) => this.setState({ page });
