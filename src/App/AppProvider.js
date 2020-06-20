@@ -6,11 +6,14 @@ cc.setApiKey(
 
 export const AppContext = React.createContext();
 
+const MAX_FAVS = 10;
+
 export class AppProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
       page: 'dashboard',
+      favourites: ['BTC', 'ETH', 'XMR'],
       ...this.saveSettings(),
       setPage: this.setPage,
       confirmFavourites: this.confirmFavourites
