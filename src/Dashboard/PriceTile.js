@@ -101,7 +101,7 @@ export default function ({ price, index }) {
 
   let TileClass = index < 5 ? PriceTile : PriceTileCompact;
 
-  console.log(data);
+  // console.log(data);
   return (
     <AppContext.Consumer>
       {({ currentFavourite, setCurrentFavourite }) => (
