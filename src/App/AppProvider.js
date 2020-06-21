@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import moment from 'moment';
 
 const cc = require('cryptocompare');
 cc.setApiKey(
@@ -9,6 +10,7 @@ cc.setApiKey(
 export const AppContext = React.createContext();
 
 const MAX_FAVS = 10;
+const TIME_UNITS = 10;
 
 export class AppProvider extends Component {
   constructor(props) {
@@ -30,6 +32,7 @@ export class AppProvider extends Component {
   componentDidMount() {
     this.fetchCoins();
     this.fetchPrices();
+    this.fetchHistorical();
   }
 
   addCoin = (key) => {
@@ -47,6 +50,24 @@ export class AppProvider extends Component {
     });
   };
 
+  fetchHistorical = async () => {
+    if (this.state.firstVisit) return;
+    let results = await this.historical();
+    // hicharts series
+    let historical = [
+      {
+        name: this.state.currentFavourite,
+        data: results.map((ticker, index) => [
+          moment()
+            .subtract({ months: TIME_UNITS - index })
+            .valueOf(),
+          ticker.USD
+        ])
+      }
+    ];
+    this.setState({ historical });
+  };
+
   fetchCoins = async () => {
     let coinList = (await cc.coinList()).Data;
     this.setState({ coinList });
@@ -57,6 +78,20 @@ export class AppProvider extends Component {
     let prices = await this.prices();
     prices = prices.filter((price) => Object.keys(price).length);
     this.setState({ prices });
+  };
+
+  historical = () => {
+    let promises = [];
+    for (let units = TIME_UNITS; units > 0; units--) {
+      promises.push(
+        cc.priceHistorical(
+          this.state.currentFavourite,
+          ['USD'],
+          moment().subtract({ months: units }).toDate()
+        )
+      );
+    }
+    return Promise.all(promises);
   };
 
   prices = async () => {
@@ -94,10 +129,13 @@ export class AppProvider extends Component {
       {
         firstVisit: false,
         page: 'dashboard',
-        currentFavourite
+        currentFavourite,
+        prices: null,
+        historical: null
       },
       () => {
         this.fetchPrices();
+        this.fetchHistorical();
       }
     );
 
@@ -111,9 +149,13 @@ export class AppProvider extends Component {
   };
 
   setCurrentFavourite = (sym) => {
-    this.setState({
-      currentFavourite: sym
-    });
+    this.setState(
+      {
+        currentFavourite: sym,
+        historical: null
+      },
+      this.fetchHistorical
+    );
 
     localStorage.setItem(
       'cryptoDash',
