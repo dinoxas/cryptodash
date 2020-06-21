@@ -28,6 +28,7 @@ export class AppProvider extends Component {
 
   componentDidMount() {
     this.fetchCoins();
+    this.fetchPrices();
   }
 
   addCoin = (key) => {
@@ -50,6 +51,27 @@ export class AppProvider extends Component {
     this.setState({ coinList });
   };
 
+  fetchPrices = async () => {
+    if (this.state.firstVisit) return;
+    let prices = await this.prices();
+    // We must filter the empty price objects (not in the lecture)
+    prices = prices.filter((price) => Object.keys(price).length);
+    this.setState({ prices });
+  };
+
+  prices = async () => {
+    let returnData = [];
+    for (let i = 0; i < this.state.favourites.length; i++) {
+      try {
+        let priceData = await cc.priceFull(this.state.favourites[i], 'USD');
+        returnData.push(priceData);
+      } catch (error) {
+        console.warn('Fetch price error', error);
+      }
+    }
+    return returnData;
+  };
+
   saveSettings = () => {
     let cryptoDashData = JSON.parse(localStorage.getItem('cryptoDash'));
     if (!cryptoDashData) {
@@ -67,10 +89,15 @@ export class AppProvider extends Component {
   isInFavourites = (key) => _.includes(this.state.favourites, key);
 
   confirmFavourites = () => {
-    this.setState({
-      firstVisit: false,
-      page: 'dashboard'
-    });
+    this.setState(
+      {
+        firstVisit: false,
+        page: 'dashboard'
+      },
+      () => {
+        this.fetchPrices();
+      }
+    );
 
     localStorage.setItem(
       'cryptoDash',
