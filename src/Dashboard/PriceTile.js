@@ -1,8 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { SelectableTile } from '../Shared/Tile';
-import { fontSize3, fontSizeBig } from '../Shared/Styles';
+import { fontSize3, fontSizeBig, greenBoxShadow } from '../Shared/Styles';
 import { CoinHeaderGridStyled } from '../Settings/CoinHeaderGrid';
+import { AppContext } from '../App/AppProvider';
 
 const numberFormat = (number) => {
   return (number + '').slice(0, 7);
@@ -39,6 +40,13 @@ const PriceTileStyled = styled(SelectableTile)`
       grid-gap: 0.5rem;
       justify-items: right;
     `}
+
+  ${(props) =>
+    props.currentFavourite &&
+    css`
+      ${greenBoxShadow};
+      pointer-events: none;
+    `}
 `;
 
 function ChangePercent({ data }) {
@@ -51,9 +59,12 @@ function ChangePercent({ data }) {
   );
 }
 
-function PriceTile({ sym, data }) {
+function PriceTile({ sym, data, currentFavourite, setCurrentFavourite }) {
   return (
-    <PriceTileStyled>
+    <PriceTileStyled
+      currentFavourite={currentFavourite}
+      onClick={setCurrentFavourite}
+    >
       <CoinHeaderGridStyled>
         <div>{sym}</div>
         <ChangePercent data={data} />
@@ -63,9 +74,18 @@ function PriceTile({ sym, data }) {
   );
 }
 
-function PriceTileCompact({ sym, data }) {
+function PriceTileCompact({
+  sym,
+  data,
+  currentFavourite,
+  setCurrentFavourite
+}) {
   return (
-    <PriceTileStyled compact>
+    <PriceTileStyled
+      compact
+      currentFavourite={currentFavourite}
+      onClick={setCurrentFavourite}
+    >
       <JustifyLeft>{sym}</JustifyLeft>
       <ChangePercent data={data} />
       <div>${numberFormat(data.PRICE)}</div>
@@ -82,5 +102,16 @@ export default function ({ price, index }) {
   let TileClass = index < 5 ? PriceTile : PriceTileCompact;
 
   console.log(data);
-  return <TileClass sym={sym} data={data} />;
+  return (
+    <AppContext.Consumer>
+      {({ currentFavourite, setCurrentFavourite }) => (
+        <TileClass
+          sym={sym}
+          data={data}
+          currentFavourite={currentFavourite === sym}
+          setCurrentFavourite={() => setCurrentFavourite(sym)}
+        />
+      )}
+    </AppContext.Consumer>
+  );
 }
