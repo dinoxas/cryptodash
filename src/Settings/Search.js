@@ -7,16 +7,27 @@ import { backgroundColor2, fontSize2 } from '../Shared/Styles';
 
 const SearchGrid = styled.div`
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 60px 1fr;
+`;
+
+const SearchLabel = styled.label`
+  align-self: center;
 `;
 
 const SearchInput = styled.input`
   ${backgroundColor2};
   ${fontSize2};
-  border: 2px solid;
-  height: 1.2rem;
-  color: #1163c9;
-  place-self: center left;
+  border: 1px solid #010e2c;
+  height: 2.2rem;
+  color: #010e2c;
+  padding: 0 0.5rem;
+  align-self: center;
+  justify-self: left;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 // debouce function to prevent firing too many events
@@ -57,10 +68,11 @@ export default function () {
     <AppContext.Consumer>
       {({ setFilteredCoins, coinList }) => (
         <SearchGrid>
-          <h2>Search all coins</h2>
+          <SearchLabel for='searchInput'>Search</SearchLabel>
           <SearchInput
             onKeyUp={(e) => filterCoins(e, setFilteredCoins, coinList)}
             placeholder='Enter coin name...'
+            id='searchInput'
           />
         </SearchGrid>
       )}

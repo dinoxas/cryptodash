@@ -7,8 +7,11 @@ export default function ({ firstVisit }) {
       {({ firstVisit }) =>
         firstVisit ? (
           <div>
-            Welcome to Crypto Dashboard! Please select your faourite coints to
-            begin.
+            <h1>Welcome to CrypTrack!</h1>
+            <p>
+              Please confirm your faourite coins to begin. There are over 5,300
+              coins to choose from!
+            </p>
           </div>
         ) : null
       }

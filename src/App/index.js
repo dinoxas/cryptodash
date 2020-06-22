@@ -6,18 +6,20 @@ import { AppProvider } from './AppProvider';
 import Settings from '../Settings';
 import Content from '../Shared/Content';
 import Dashboard from '../Dashboard';
+import AppFooter from './AppFooter';
 
 function App() {
   return (
-    <AppLayout>
-      <AppProvider>
-        <AppBar />
+    <AppProvider>
+      <AppBar />
+      <AppLayout>
         <Content>
           <Dashboard />
           <Settings />
         </Content>
-      </AppProvider>
-    </AppLayout>
+      </AppLayout>
+      <AppFooter />
+    </AppProvider>
   );
 }
 

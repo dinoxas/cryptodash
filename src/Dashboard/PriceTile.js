@@ -26,7 +26,7 @@ const ChangePct = styled.div`
   ${(props) =>
     props.red &&
     css`
-      color: red;
+      color: #e74c3c;
     `}
 `;
 

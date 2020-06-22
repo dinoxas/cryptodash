@@ -1,20 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AppContext } from '../App/AppProvider';
-import { fontSize1, greenBoxShadow, color3 } from '../Shared/Styles';
+import { fontSize1 } from '../Shared/Styles';
 
 const ConfirmButtonStyled = styled.button`
   background: transparent;
   font-family: 'Do Hyeon', sans-serif;
-  border: 2px solid ${color3};
-  color: ${color3};
+  border: 2px solid #010e2c;
+  color: #010e2c;
   ${fontSize1}
   cursor: pointer;
-  margin: 1rem;
-  padding: 0.5rem 1rem;
+  margin: 2rem auto;
+  padding: 0.5rem 1.5rem;
+  transition: all 0.25s ease-in;
 
+  &:focus,
   &:hover {
-    ${greenBoxShadow}
+    background: #010e2c;
+    color: white;
   }
 `;
 

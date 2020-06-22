@@ -107,13 +107,13 @@ export default {
     }
   },
   legend: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgb(225, 234, 238)',
     itemStyle: {
       font: '9pt Trebuchet MS, Verdana, sans-serif',
-      color: '#A0A0A0'
+      color: '#010e2c'
     },
     itemHoverStyle: {
-      color: '#FFF'
+      color: '#010e2c'
     },
     itemHiddenStyle: {
       color: '#444'

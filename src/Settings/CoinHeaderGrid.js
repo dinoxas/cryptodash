@@ -4,7 +4,8 @@ import { DeletableTile } from '../Shared/Tile';
 
 export const CoinHeaderGridStyled = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 50px;
+  position: relative;
 `;
 
 export const CoinSymbol = styled.div`
@@ -16,7 +17,15 @@ export const DeleteIcon = styled.div`
   display: none;
   ${DeletableTile}:hover & {
     display: block;
-    color: red;
+    color: white;
+    background: #e74c3c;
+    border-radius: 50%;
+    box-sizing: border-box;
+    text-align: center;
+    position: absolute;
+    padding: 0.2rem 0.4rem;
+    right: 0;
+    top: 0;
   }
 `;
 

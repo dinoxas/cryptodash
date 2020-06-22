@@ -3,21 +3,38 @@ import styled, { css } from 'styled-components';
 import { AppContext } from './AppProvider';
 
 const Bar = styled.div`
+  position: fixed;
+  background: #010e2c;
+  width: 100%;
+  height: 50px;
+  border: 1px solid #010717;
+  z-index: 2;
+`;
+
+const BarContent = styled.div`
+  color: white;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0 1rem;
   display: grid;
-  grid-template-columns: 200px auto 100px 100px;
-  margin-bottom: 3rem;
+  grid-template-columns: 1fr 80px 80px;
+  height: 100%;
 `;
 
 const Logo = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.35rem;
+  align-self: center;
 `;
 
-const ControlBUttonElem = styled.div`
+const ControlButtonElem = styled.div`
   cursor: pointer;
+  align-self: center;
+  text-align: right;
   ${(props) =>
     props.active &&
     css`
-      text-shadow: 0px 0px 2.5rem #03ff03;
+      color: #03ff03;
     `}
 
   ${(props) =>
@@ -35,13 +52,13 @@ function ControlButton({ name }) {
   return (
     <AppContext.Consumer>
       {({ page, setPage, firstVisit }) => (
-        <ControlBUttonElem
+        <ControlButtonElem
           active={page === name}
           onClick={() => setPage(name)}
           hidden={firstVisit && name === 'dashboard'}
         >
           {toProperCase(name)}
-        </ControlBUttonElem>
+        </ControlButtonElem>
       )}
     </AppContext.Consumer>
   );
@@ -50,10 +67,11 @@ function ControlButton({ name }) {
 export default function AppBar() {
   return (
     <Bar>
-      <Logo>CryptoDash</Logo>
-      <div></div>
-      <ControlButton active name='dashboard' />
-      <ControlButton name='settings' />
+      <BarContent>
+        <Logo>CrypTrack</Logo>
+        <ControlButton active name='dashboard' />
+        <ControlButton name='settings' />
+      </BarContent>
     </Bar>
   );
 }

@@ -8,6 +8,11 @@ const PriceGrid = styled.div`
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 1rem;
   margin-top: 2rem;
+  max-width: 1200px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 `;
 
 export default function () {
