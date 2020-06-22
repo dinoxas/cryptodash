@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-
 const cc = require('cryptocompare');
-cc.setApiKey(`${process.env.REACT_APP_CC_API}`);
 
-console.log(process.env.REACT_APP_CC_API);
+const apiKeys = () => {
+  return process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_CC_API
+    : process.env.REACT_APP_CC_API_LOCAL;
+};
+
+cc.setApiKey(apiKeys());
 
 export const AppContext = React.createContext();
 

@@ -68,7 +68,7 @@ export default function () {
     <AppContext.Consumer>
       {({ setFilteredCoins, coinList }) => (
         <SearchGrid>
-          <SearchLabel for='searchInput'>Search</SearchLabel>
+          <SearchLabel htmlFor='searchInput'>Search</SearchLabel>
           <SearchInput
             onKeyUp={(e) => filterCoins(e, setFilteredCoins, coinList)}
             placeholder='Enter coin name...'
