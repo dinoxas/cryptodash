@@ -6,7 +6,7 @@ import CoinTile from '../Settings/CoinTile';
 
 export const CoinGridStyled = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 1rem;
   margin-top: 3rem;
 `;

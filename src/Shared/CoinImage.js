@@ -2,12 +2,14 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 const CoinImage = styled.img`
-  height: 50px;
+  display: block;
+  height: 70px;
+  margin: 0.5rem auto 0;
+
   ${(props) =>
     props.spotlight &&
     css`
       margin: auto;
-      display: block;
       height: 10rem;
     `}
 `;
